@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   get 'test' => 'welcome#testAction'
 
-  resources :articles
+  resources :articles do
+    resources :comments
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
