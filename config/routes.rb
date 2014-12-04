@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  get 'keys/generate' => 'keys#generate'
+  get 'keys/touch/:key_hash' => 'keys#touch'
+  resources :keys
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
