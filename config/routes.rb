@@ -13,8 +13,11 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  #todo: refactor the routes. Group them together maybe.
   get 'keys/generate' => 'keys#generate'
+  get 'keys/get' => 'keys#getKey'
   get 'keys/touch/:key_hash' => 'keys#touch'
+  get 'keys/unblock/:key_hash' => 'keys#unblock'
   resources :keys
 
   # Example of regular route:
