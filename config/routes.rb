@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'keys/get' => 'keys#getKey'
   get 'keys/touch/:key_hash' => 'keys#touch'
   get 'keys/unblock/:key_hash' => 'keys#unblock'
+  get 'keys/delete/:key_hash' => 'keys#delete'
   resources :keys
 
   # Example of regular route:

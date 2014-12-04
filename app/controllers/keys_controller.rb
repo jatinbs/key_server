@@ -35,11 +35,16 @@ class KeysController < ApplicationController
         or(t[:locked].eq(false))
     ).where('updated_at>?', 5.minutes.ago).first
 
-    @key.update(locked: true) if @key
-    #todo: only call if updated failed.(ie already locked)
-    @key.touch if @key
-
-    render json: @key
+    if @key
+      @key.update(locked: true)
+      #todo: only call if updated failed.(ie already locked)
+      @key.touch
+      render json: @key
+    else
+      render :status => 404, :json => {
+                               error: "No keys available at this time."
+                           }
+    end
 
   end
 
@@ -54,6 +59,13 @@ class KeysController < ApplicationController
   def touch
     @key = Key.where(unique_hash: params[:key_hash]).first
     @key.touch
+    render json: @key
+  end
+
+
+  def delete
+    @key = Key.where(unique_hash: params[:key_hash]).first
+    @key.destroy if @key
     render json: @key
   end
 
