@@ -51,22 +51,42 @@ class KeysController < ApplicationController
   #method to unblock keys
   def unblock
     @key = Key.where(unique_hash: params[:key_hash]).first
-    @key.update(locked: false)
-    render json: @key
+    if @key
+      @key.update(locked: false)
+      render json: @key
+    else
+      render :status => 404, :json => {
+                               error: "Key not found. Please get a new key."
+                           }
+    end
   end
 
   #method to keep the key alive and locked
   def touch
+
+    #todo: can unlocked keys be touched? or do you have to wait till they are resassigned?
     @key = Key.where(unique_hash: params[:key_hash]).first
-    @key.touch
-    render json: @key
+    if @key
+      @key.touch
+      render json: @key
+    else
+      render :status => 404, :json => {
+                               error: "Key not found. Please get a new key."
+                           }
+    end
   end
 
 
   def delete
     @key = Key.where(unique_hash: params[:key_hash]).first
-    @key.destroy if @key
-    render json: @key
+    if @key
+      @key.destroy
+      render json: @key
+    else
+      render :status => 404, :json => {
+                               error: "Key not found."
+                           }
+    end
   end
 
   private
